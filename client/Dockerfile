@@ -1,5 +1,5 @@
 # Get the node image using the alpine 
-FROM node:alpine as build
+FROM node:alpine as builder
 # Set the working directory in the container
 WORKDIR '/app'
 # Copy over package.json to the container from our app folder
