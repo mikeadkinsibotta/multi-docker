@@ -8,15 +8,15 @@ scripts:
     - docker run mikeadkins/react-test npm test -- --watchAll=false
 
 after_success:
-    - docker build -t mikeadkins/multi-client ./client
-    - docker build -t mikeadkins/multi-nginx ./nginx
-    - docker build -t mikeadkins/multi-server ./server
-    - docker build -t mikeadkins/multi-worker ./worker
+    - docker build -t madkins2121/multi-client ./client
+    - docker build -t madkins2121/multi-nginx ./nginx
+    - docker build -t madkins2121/multi-server ./server
+    - docker build -t madkins2121/multi-worker ./worker
     # Log into the docker cli
     - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
     # Take those images and push them to docker hub
-    - docker push mikeadkins/multi-client
-    - docker push mikeadkins/multi-nginx
-    - docker push mikeadkins/multi-server
-    - docker push mikeadkins/multi-worker
+    - docker push madkins2121/multi-client
+    - docker push madkins2121/multi-nginx
+    - docker push madkins2121/multi-server
+    - docker push madkins2121/multi-worker
     
