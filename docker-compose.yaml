@@ -1,0 +1,61 @@
+version: '3'
+# This is our list of services or all the containers we will start and the images we will use
+services: 
+    # We are naming this container/service postgres
+    postgres:
+        # We are using the 'postgres:latest' image for the postgres container/service
+        image: 'postgres:latest'
+         # We are naming this container/service redis
+    redis:
+        # We are using the 'redis:latest' image for the postgres container/service
+        image: 'redis:latest'
+    api:
+        # Here we are going to build the container/image using a docker file.  
+        # This is different then an already setup image we are downloading from docker hub.
+        build: 
+            # Here we set the name of the dockerfile.  
+            # Notice we don't set the path of where to look for the docker file.  Just the file name here.
+            dockerfile: Dockerfile.dev
+            # Here we are poviding the location of our dockerfile and any other files for this server image/container for that matter.
+            # We are saying start where docker-compose is located and then go into the server directory.
+            context: ./server
+        volumes:
+            # When we just have one folder path listed, we are saying look for this path on the container and 
+            # whatever you do, don't override this contents of this folder with anything on my local machine.
+            - /app/node_modules
+            # Point everything in the app directory on the container back to the server on my local machine
+            # Except the /app/node_modules folder
+            - ./server:/app
+        environment: 
+            # Setting environmental variables.  All we are doing here refering to another docker container/service.  
+            # Here we are saying use the service called redis that was named above.
+            - REDIS_HOST=redis
+            # This is the dafualt port for redis
+            - REDIS_PORT=6379
+            - PGUSER=postgres
+            - PGHOST=postgres
+            - PGDATABASE=postgres
+            - PGPASSWORD=postgres_password
+            - PGPORT=5432
+    client:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./client
+        volumes:
+            - /app/node_modules
+            - ./client:/app 
+    worker:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./worker
+        volumes:
+            - /app/node_modules
+            - ./worker:/app
+    nginx:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./nginx
+        restart: always
+        ports:
+            - '3050:80'
+    
