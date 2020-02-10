@@ -9,4 +9,4 @@ RUN npm install
 # Copy everything else over
 COPY . .
 # Set the default commmand for when the container starts.
-CMD npm run dev
+CMD npm run start

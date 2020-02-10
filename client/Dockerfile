@@ -9,7 +9,7 @@ RUN npm install
 # Copy everything else over
 COPY . .
 # Set the default commmand for when the container starts.
-CMD npm run build
+CMD npm run start
 
 FROM nginx
 EXPOSE 3000
